@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 
 import { CardList } from './components/card-list/card-list.component';
-import { SearchBox } from './components/search-box/search-box.component';
-
 import './App.css';
 
 class App extends Component {
@@ -13,8 +11,6 @@ class App extends Component {
 			monsters: [],
 			searchField: '',
 		};
-
-		// this.handleChange = this.handleChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -22,10 +18,6 @@ class App extends Component {
 			.then((response) => response.json())
 			.then((users) => this.setState({ monsters: users }));
 	}
-
-	handleChange = (e) => {
-		this.setState({ searchField: e.target.value });
-	};
 
 	render() {
 		const { monsters, searchField } = this.state;
@@ -35,8 +27,15 @@ class App extends Component {
 
 		return (
 			<div className="App">
-				<h1>Monsters Rolodex</h1>
-				<SearchBox placeholder="search monsters" handleChange={this.handleChange} />
+				<input
+					type="search"
+					placeholder="search monsters"
+					onChange={(e) => {
+						this.setState({ searchField: e.target.value }, () => console.log(this.state));
+						// 1文字目の入力が反映されてないのがわかる
+						// console.log(this.state);
+					}}
+				/>
 				<CardList monsters={filteredMonsters}>
 					{/* props.childrenとして表示させたいものはコンポーネントの中に記述 */}
 					{/* <h1>Yihua</h1> */}
